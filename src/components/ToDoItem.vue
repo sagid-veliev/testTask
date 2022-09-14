@@ -1,34 +1,44 @@
 <template>
     <div class="todo_item">
-        <div class="content">
-            <input type="checkbox" class="content_checkbox" name="task" id="task" disabled checked/>
-            <label class="content_task" for="task">Все нармална, я в  ты такой,  вырубить и ты ничего мне не сделаешь</label>
+        <div class="container">
+            <input type="checkbox" class="container_checkbox" name="task" :id="id"/>
+            <label class="container_task" :for="id">{{ props.task }}</label>
         </div>
     </div>
 </template>
 
 <script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+    task: String,
+    id: String
+})
+
 
 </script>
 
 <style lang="scss" scoped>
 
     $color: #f88112;
+    
     .todo_item {
         display: flex;
         justify-content: center;
         background-color: #FFFEFB;
-        height: 100px;
-        width: 50%;
+        min-height: 80px;
+        width: 100%;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
     }
 
-    .content {
+    .container {
         display: flex;
         align-items: center;
         width: 90%;
+        overflow: hidden;
         &_checkbox {
+            position: absolute;
             z-index: -1;
             opacity: 0;
         }
@@ -37,18 +47,20 @@
             align-items: center;
             user-select: none;
             cursor: pointer;
+            height: 90%;
         }
         &_checkbox+label::before {
             content: '';
             display: inline-flex;
-            width: 20px;
+            min-width: 20px;
             height: 20px;
             border: 1px solid #adb5bd;
-            border-radius: 25%;
+            border-radius: 5px;
             margin-right: 20px;
             background-repeat: no-repeat;
+            background-size: cover;
             background-position: center center;
-            background-size: 50% 50%;
+            background-size: 70%;
         }
         &_checkbox:checked+label::before {
             border-color:  $color;
@@ -67,7 +79,7 @@
         }
         &_checkbox:disabled+label::before {
             background-color:  $color;
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: default;
         }
         &_task {
@@ -75,6 +87,8 @@
             font-weight: 600;
             font-size: 20px;
             line-height: 20px;
+            height: 100%;
+            word-wrap: break-word;
         }
     }
 </style>
