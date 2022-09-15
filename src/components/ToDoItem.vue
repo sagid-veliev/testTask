@@ -1,19 +1,32 @@
 <template>
     <div class="todo_item">
         <div class="container">
-            <input type="checkbox" class="container_checkbox" name="task" :id="id"/>
+            <input 
+                type="checkbox"
+                class="container_checkbox" 
+                name="task" 
+                :id="id"
+            />
             <label class="container_task" :for="id">{{ props.task }}</label>
+            <button @click.stop="deleteTask" class="container_delete">Удалить</button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits} from 'vue';
+
+const emit = defineEmits(['delete-task']);
 
 const props = defineProps({
     task: String,
-    id: String
-})
+    id: String,
+    disabled: Boolean
+});
+
+const deleteTask = () => {
+    emit('delete-task');
+}
 
 
 </script>
@@ -26,7 +39,7 @@ const props = defineProps({
         display: flex;
         justify-content: center;
         background-color: #FFFEFB;
-        min-height: 80px;
+        min-height: 10vh;
         width: 100%;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
@@ -35,7 +48,7 @@ const props = defineProps({
     .container {
         display: flex;
         align-items: center;
-        width: 90%;
+        width: 95%;
         overflow: hidden;
         &_checkbox {
             position: absolute;
@@ -83,12 +96,31 @@ const props = defineProps({
             cursor: default;
         }
         &_task {
+            width: 90%;
             font-family: "Source Sans Pro";
             font-weight: 600;
             font-size: 20px;
             line-height: 20px;
             height: 100%;
-            word-wrap: break-word;
+            word-break: break-all;
+        }
+        &_delete {
+            height: 40px;
+            width: 70px;
+            color: rgb(255, 53, 46);
+            border: 2px solid rgb(255, 53, 46);
+            background-color: white;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: 0.2s ease;
+            overflow: hidden;
+            &:hover {
+                background-color: rgb(255, 53, 46);
+                border: 1px solid rgba(0, 0, 0, 0);
+                color: white;
+                cursor: pointer;
+            }
         }
     }
 </style>

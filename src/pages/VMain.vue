@@ -1,13 +1,12 @@
 <template>
     <div class="todo">
-        <ToDoList />
+        <to-do-list />
     </div>
 </template>
 
 <script setup>
 import ToDoList from "@/components/ToDoList.vue";
-
-
+// import ModalWindow from "@/components/ModalWindow.vue";
 </script>
 
 <style lang="scss">
@@ -37,5 +36,6 @@ import ToDoList from "@/components/ToDoList.vue";
     .todo {
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 </style>
