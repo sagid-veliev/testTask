@@ -2,32 +2,45 @@
     <div class="todo_item">
         <div class="container">
             <input 
+                :checked="checked"
                 type="checkbox"
                 class="container_checkbox" 
                 name="task" 
-                :id="id"
+                :id="props.id"
+                :disabled="props.disabled"
+                @change="toggleInput"
             />
-            <label class="container_task" :for="id">{{ props.task }}</label>
-            <button @click.stop="deleteTask" class="container_delete">Удалить</button>
+            <label class="container_task" :for="props.id">{{ props.task }}</label>
+            <slot name="change_btn"></slot>
+            <slot name="delete_btn"></slot>            
         </div>
     </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits} from 'vue';
-
-const emit = defineEmits(['delete-task']);
+import {  defineProps, defineEmits } from "vue";
 
 const props = defineProps({
-    task: String,
-    id: String,
-    disabled: Boolean
+    task: {
+        type: String,
+        default: "",
+    }, 
+    id: {
+        type: Number,
+        default: null,
+    },
+    disabled: {
+        type: Boolean,
+        default: true
+    },
+    checked: {
+        type: Boolean,
+        default: false
+    }
 });
 
-const deleteTask = () => {
-    emit('delete-task');
-}
-
+const emit = defineEmits(["delete-task", "check", "change-task"]);
+const toggleInput = () => { emit("check") };
 
 </script>
 
@@ -50,6 +63,7 @@ const deleteTask = () => {
         align-items: center;
         width: 95%;
         overflow: hidden;
+        gap: 10px;
         &_checkbox {
             position: absolute;
             z-index: -1;
@@ -63,7 +77,7 @@ const deleteTask = () => {
             height: 90%;
         }
         &_checkbox+label::before {
-            content: '';
+            content: "";
             display: inline-flex;
             min-width: 20px;
             height: 20px;
@@ -91,7 +105,6 @@ const deleteTask = () => {
             border-color:  $color;
         }
         &_checkbox:disabled+label::before {
-            background-color:  $color;
             opacity: 0.4;
             cursor: default;
         }
@@ -99,28 +112,24 @@ const deleteTask = () => {
             width: 90%;
             font-family: "Source Sans Pro";
             font-weight: 600;
-            font-size: 20px;
-            line-height: 20px;
+            font-size: 18px;
+            line-height: 18px;
             height: 100%;
             word-break: break-all;
+            gap: 10px;
         }
-        &_delete {
-            height: 40px;
-            width: 70px;
-            color: rgb(255, 53, 46);
-            border: 2px solid rgb(255, 53, 46);
-            background-color: white;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 5px;
-            transition: 0.2s ease;
-            overflow: hidden;
-            &:hover {
-                background-color: rgb(255, 53, 46);
-                border: 1px solid rgba(0, 0, 0, 0);
-                color: white;
-                cursor: pointer;
-            }
+    }
+
+    @media (max-width: 1100px) {
+        .todo_list {
+            width: 80%;
+        }
+    }
+    @media (max-width: 800px) {
+        .todo_list {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
         }
     }
 </style>

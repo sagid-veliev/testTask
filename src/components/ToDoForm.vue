@@ -1,46 +1,56 @@
 <template>
-    <div class="todo_form">
+    <form @submit.prevent="props.buttonName === 'Создать' ? addTask() : editTask()" class="todo_form">
         <input 
             v-model.trim="task" 
             class="todo_form_input"
             :class="{ todo_form_input_disabled: props.disabled }"
-            :disabled="props.disabled"
+            :disabled="props.disabled && props.buttonName === 'Создать'"
             type="text" 
             :placeholder="placeholder" 
         />
         <button 
-            @click="addTask"
             class="todo_form_button"
-            :class="{ todo_form_button_disabled: props.disabled || task.length === 0 }"
-            :disabled="props.disabled || task.length === 0" 
+            type="submit"
+            :class="{ todo_form_button_disabled: props.disabled || !task.length }"
+            :disabled="(props.disabled || task.length === 0) && props.buttonName === 'Создать'" 
         >
-            Создать заметку
+            {{ props.buttonName }}
         </button>
-    </div>
+    </form>
 </template>
 <script setup>
-import { ref, computed, defineEmits, defineProps, } from 'vue';
+import { ref, computed, defineEmits, defineProps, } from "vue";
 
-    const task = ref('');
-    const emit = defineEmits(['addTask']);
+    const task = ref("");
+    const emit = defineEmits(["add-task", "edit-task"]);
     const props = defineProps({
         disabled: {
             type: Boolean,
             default: true
+        },
+        buttonName: {
+            type: String,
+            default: 'Создать'
         }
     });
 
     const placeholder = computed(() => {
-        return props.disabled ? 'Количество задач не должно превышать - 6!' : 'Введите задачу';
+        return props.disabled && props.buttonName === "Создать" ? "Можно добавить не более 5 заметок!" : "Введите задачу";
     });
 
     const addTask = () => {
-        emit('addTask',  {
-            'id': Math.floor(Math.random() * 100),
-            'task': task.value
+        emit("add-task",  {
+            "id": Math.floor(Math.random() * 100),
+            "task": task.value,
+            "checked": false
         });
         task.value = "";
     };
+
+    const editTask = () => {
+        emit("edit-task", task.value);
+        task.value = "";
+    }
 
 </script>
 <style lang="scss">
@@ -101,9 +111,30 @@ import { ref, computed, defineEmits, defineProps, } from 'vue';
             &_disabled {
                 background-color: rgb(255, 255, 255);
                 color: rgb(110, 110, 110);
-                border: 1px solid rgb(236, 236, 236);
+                border: 1px solid #f88112;
             }
         }
     }
     
+    @media (max-width: 1100px) {
+        .todo_form_button {
+            width: 80%;
+            font-size: 13px;
+        }
+    }
+    @media (max-width: 800px) {
+        .todo_form {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            &_input {
+                width: 80%;
+                font-size: 13px;
+            }
+            &_button {
+                width: 80%; 
+                font-size: 13px;
+            }
+        }
+    }
 </style>

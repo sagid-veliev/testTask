@@ -1,17 +1,16 @@
 <template>
-    <div v-show="props.showModal" class="popup_fade">
+    <div @click="closeModal" v-show="props.showModal" class="popup_fade">
         <div class="popup">
             <div class="popup_header">Подтвердить действие</div>
-            <div class="popup_content">Вы уверены, что хотите удалить данную задачу?</div>
+            <div class="popup_content">Вы уверены, в своём решении?</div>
             <div class="popup_action">
-                <button @click="deleteTaskConfirm" class="popup_action_confirm">Да</button>
+                <button @click.stop="someConfirm" class="popup_action_confirm">Да</button>
             </div>
         </div>		
     </div>
 </template>
 <script setup>
     import { defineProps, defineEmits } from 'vue';
-
     const props = defineProps({
         showModal: {
             type: Boolean,
@@ -19,12 +18,16 @@
         }
     })
 
-    const emit = defineEmits(['delete']);
-
-    const deleteTaskConfirm = () => {
-        emit(('delete'));
+    const emit = defineEmits(['select', 'close']);
+    const someConfirm = () => {
+        console.log('dasdsadsadadsads')
+        emit(('select'));
+    }
+    const closeModal = () => {
+        emit(('close'));
     }
 
+    
 </script>
 <style lang="scss" scoped>
     .popup {
@@ -33,7 +36,7 @@
         left: 50%;
         width: 450px;
         height: 150px;
-        margin-left: -175px;	
+        margin-left: -225px;	
         background: #fff;
         font-family: "Source Sans Pro";
         border-radius: 4px; 
