@@ -2,7 +2,6 @@
     <button @click="deleteTask" class="button_delete">Удалить</button>
 </template>
 <script setup>
-import { defineEmits } from "vue";
 
 const emit = defineEmits(['delete-task']);
 const deleteTask = () => { emit("delete-task") };
@@ -26,6 +25,12 @@ const deleteTask = () => { emit("delete-task") };
             border: 2px solid rgba(0, 0, 0, 0);
             color: white;
             cursor: pointer;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .button_delete {
+            width: 100%;
         }
     }
 </style>

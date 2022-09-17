@@ -10,7 +10,6 @@
     </div>
 </template>
 <script setup>
-    import { defineProps, defineEmits } from 'vue';
     const props = defineProps({
         showModal: {
             type: Boolean,
@@ -20,7 +19,6 @@
 
     const emit = defineEmits(['select', 'close']);
     const someConfirm = () => {
-        console.log('dasdsadsadadsads')
         emit(('select'));
     }
     const closeModal = () => {

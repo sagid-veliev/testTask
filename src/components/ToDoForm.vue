@@ -73,7 +73,7 @@ import { ref, computed, defineEmits, defineProps, } from "vue";
             height: 40px;
             font-family: "Source Sans Pro";
             font-weight: 400;
-            padding: 0 10px;
+            // padding: 0 10px;
             font-size: 16px;
             line-height: 30px;
             border: none;
@@ -85,8 +85,7 @@ import { ref, computed, defineEmits, defineProps, } from "vue";
             }
             &_disabled {
                 background-color: rgb(252, 252, 252);
-                border: 1px solid rgb(255, 53, 46);
-                color: 1px solid rgb(255, 53, 46);
+                border: 2px solid rgb(255, 53, 46);
             }
         }
         &_button {
@@ -126,13 +125,16 @@ import { ref, computed, defineEmits, defineProps, } from "vue";
         .todo_form {
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            background-color: #f6f6f6;
             width: 90%;
+            justify-content: center;
             &_input {
-                width: 80%;
+                width: 100%;
                 font-size: 13px;
             }
             &_button {
-                width: 80%; 
+                width: 100%; 
                 font-size: 13px;
             }
         }

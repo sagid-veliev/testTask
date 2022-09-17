@@ -16,8 +16,7 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-
+    
 const props = defineProps(["header"])
 
 </script>
@@ -69,11 +68,5 @@ const props = defineProps(["header"])
             width: 80%;
         }
     }
-    @media (max-width: 800px) {
-        .todo_list {
-            display: flex;
-            flex-direction: column;
-            width: 80%;
-        }
-    }
-</style>
+
+    </style>

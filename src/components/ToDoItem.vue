@@ -18,7 +18,6 @@
 </template>
 
 <script setup>
-import {  defineProps, defineEmits } from "vue";
 
 const props = defineProps({
     task: {
@@ -46,6 +45,18 @@ const toggleInput = () => { emit("check") };
 
 <style lang="scss" scoped>
 
+.cart-enter-active,
+.cart-leave-active {
+    transition: all .7s;
+}
+.cart-enter {
+    transform: translateX(33%);
+    opacity: 0;
+}
+.cart-leave-to {
+    transform: translateX(-100%);
+    opacity: 0;
+}
     $color: #f88112;
     
     .todo_item {
@@ -125,7 +136,10 @@ const toggleInput = () => { emit("check") };
             width: 80%;
         }
     }
-    @media (max-width: 800px) {
+    @media (max-width: 600px) {
+        .container {
+            flex-direction: column;
+        }
         .todo_list {
             display: flex;
             flex-direction: column;
