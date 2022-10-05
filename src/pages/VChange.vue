@@ -1,6 +1,6 @@
 <template>
     <to-do-header></to-do-header>
-    <modal-window @close="closeModal" @select=" action ? deleteTaskConfirm() : cancelConfirm()" :show-modal="showModal" />
+    <modal-window @close="closeModal" @select=" action ? deleteTaskConfirm() : cancelConfirm() " :show-modal="showModal" />
     <div class="todo">
         <to-do-list header="To Do List - Change">
             <template #form>
@@ -33,7 +33,12 @@
             </template>
             <template #button>
                 <div class="block_button">
-                    <button class="button" @click.stop="toBack" :disabled="oldTasks.length < 2 || !disableUndoRedo">Отменить изменение</button>
+                    <ToDoButton
+                        class-name="button_cancel"
+                        color="#ff352e"
+                        button-name="Отменить редактирование"
+                    ></ToDoButton>
+                    <!-- <button class="button" @click.stop="toBack" :disabled="oldTasks.length < 2 || !disableUndoRedo">Отменить изменение</button> -->
                     <button class="button" @click.stop="toNext" :disabled="oldTasks.length < 2 || disableUndoRedo">Вернуть изменение</button>
                 </div>
                 <button-cancel @click="cancelChanges"></button-cancel>
@@ -73,10 +78,10 @@ onMounted(() => {
     tasks.value = JSON.parse(localStorage.getItem("tasks")) || [];
 });
 
-const toBack = () => {
-    tasks.value = oldTasks[0];
-    disableUndoRedo.value = false;
-}
+// const toBack = () => {
+//     tasks.value = oldTasks[0];
+//     disableUndoRedo.value = false;
+// }
 
 const toNext = () => {
     tasks.value = oldTasks[0];

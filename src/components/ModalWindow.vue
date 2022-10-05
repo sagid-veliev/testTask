@@ -19,10 +19,10 @@
 
     const emit = defineEmits(['select', 'close']);
     const someConfirm = () => {
-        emit(('select'));
+        emit('select');
     }
     const closeModal = () => {
-        emit(('close'));
+        emit('close');
     }
 
     

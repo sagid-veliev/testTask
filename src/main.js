@@ -6,6 +6,7 @@ import ButtonCancel from "@/components/ButtonCancel.vue"
 import ButtonChange from "@/components/ButtonChange.vue"
 import ButtonDelete from "@/components/ButtonDelete.vue"
 import ButtonRedirect from "@/components/ButtonRedirect.vue"
+import ToDoButton from "@/components/ToDoButton.vue"
 import ToDoHeader from "@/components/ToDoHeader.vue"
 import ToDoForm from "@/components/ToDoForm.vue"
 import ToDoItem from "@/components/ToDoItem.vue"
@@ -22,6 +23,7 @@ app
   .component('ButtonChange', ButtonChange)
   .component('ButtonDelete', ButtonDelete)
   .component('ButtonRedirect', ButtonRedirect)
+  .component('ToDoButton', ToDoButton)
   .component('ModalWindow', ModalWindow)
   .component('ToDoHeader', ToDoHeader)
   .component('ToDoForm', ToDoForm)

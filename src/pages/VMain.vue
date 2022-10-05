@@ -21,9 +21,6 @@
                     </template>
                 </to-do-item>
             </template>
-            <template #button>
-                <ButtonRedirect page="change" :show-button="showBtn"></ButtonRedirect>
-            </template>
         </to-do-list>
     </div>
 </template>
@@ -65,9 +62,6 @@ const tooManyTasks = computed(() => {
     return tasks.value.length > 4;
 });
 
-const showBtn = computed(() => {
-    return Boolean(tasks.value.length);
-});
 
 const closeModal = () => {
     showModal.value = !showModal.value;
