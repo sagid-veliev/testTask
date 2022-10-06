@@ -1,6 +1,6 @@
 <template>
     <to-do-header></to-do-header>
-    <modal-window @select="deleteTaskConfirm" @close="closeModal" :show-modal="showModal" />
+    <modal-window @select="deleteTaskConfirm" :show-modal="showModal" />
     <div class="todo">
         <to-do-list header="To Do List">
             <template #form>
@@ -27,12 +27,10 @@
 
 <script setup>
 
-import { ref, computed, watch, onMounted } from 'vue';
+import { computed, watch, onMounted } from 'vue';
+import tasksActions from '@/mixins/tasksActions'; 
 
-//data
-const showModal = ref(false);
-const tasks = ref([]);
-let deletedIndex = '';
+const { tasks, showModal, getTask, deleteTask, deleteTaskConfirm } = tasksActions();
 
 watch(tasks, (newList) => {
     localStorage.setItem("tasks", JSON.stringify(newList));
@@ -42,30 +40,10 @@ onMounted(() => {
     tasks.value = JSON.parse(localStorage.getItem("tasks")) || [];
 });
 
-//methods
-const getTask = (task) => {
-    tasks.value.unshift(task);
-};
-
-const deleteTask = (index) => {
-    deletedIndex = index;
-    showModal.value = !showModal.value;
-};
-
-const deleteTaskConfirm  = () => {
-    tasks.value.splice(deletedIndex, 1);
-    showModal.value = !showModal.value;
-};
-
 //computed
 const tooManyTasks = computed(() => {
     return tasks.value.length > 4;
 });
-
-
-const closeModal = () => {
-    showModal.value = !showModal.value;
-};
 
 </script>
 

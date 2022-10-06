@@ -1,6 +1,6 @@
 <template>
     <to-do-header></to-do-header>
-    <modal-window @close="closeModal" @select=" action ? deleteTaskConfirm() : cancelConfirm() " :show-modal="showModal" />
+    <modal-window @select=" action ? deleteTaskConfirm() : cancelConfirm() " :show-modal="showModal" />
     <div class="todo">
         <to-do-list header="To Do List - Change">
             <template #form>
@@ -22,37 +22,47 @@
                     :active="active"
                     @check="checkedInput(item)"  
                 >
-                    <template #delete_btn>
-                        <button-delete @delete-task="deleteTask(index)" />
-                    </template>
                     <template #change_btn>
-                        <button-change @change-task="changeTask(item)" />
+                        <to-do-button
+                            color="#033ddd"
+                            width="10"
+                            button-name="Изменить"
+                            @click="changeTask(item)"
+                        />
+                    </template>
+                    <template #delete_btn>
+                        <to-do-button
+                            color="#f88112"
+                            width="10"
+                            button-name="Удалить"
+                            @click="deleteTask(index)"
+                        />
                     </template>
                 </to-do-item>
             </template>
             <template #button>
                 <div class="block_button">
-                    <ToDoButton
+                    <to-do-button
                         class-name="button_undoredo"
                         color="#a4a8a4"
                         button-name="Отменить"
                         :disabled="oldTasks.length < 2 || !disableUndoRedo"
                         @click="toBack" 
-                    ></ToDoButton>
-                    <ToDoButton
+                    ></to-do-button>
+                    <to-do-button
                         class-name="button_undoredo"
                         color="#a4a8a4"
                         button-name="Вернуть"
                         :disabled="oldTasks.length < 2 || disableUndoRedo"
                         @click="toNext" 
-                    ></ToDoButton>
+                    ></to-do-button>
                 </div>
-                <ToDoButton
+                <to-do-button
                     class-name="button_cancel"
                     color="#ff352e"
                     button-name="Отменить редактирование"
                     @click="cancelChanges"
-                ></ToDoButton>
+                ></to-do-button>
             </template>
         </to-do-list>
     </div>
@@ -61,19 +71,18 @@
 
 <script setup>
 
-
 import { ref, reactive, computed, watch, onMounted } from 'vue';
-import ToDoHeader from '@/components/ToDoHeader.vue';
+import tasksActions from '@/mixins/tasksActions'; 
+
+const { tasks, showModal, getTask, deleteTask, deleteTaskConfirm } = tasksActions();
 
 const oldTasks = reactive([]);
-const showModal = ref(false);
-const tasks = ref([]);
+
 const nameButton = ref("Создать");
 const disableUndoRedo = ref(true); 
 const active = ref(false);
 const action = ref(true);
 let editedTask = "";
-let deletedIndex = '';
 
 //отслеживания изменений списка задач, для обновления JSON,
 //также заполняю массив двумя последними изменившимися массивами для отмены редактирования и потворения действия 
@@ -98,25 +107,12 @@ const toNext = () => {
     tasks.value = oldTasks[0];
     disableUndoRedo.value = true;
 }
-//получение задачи
-const getTask = (task) => {
-    tasks.value.unshift(task);
-}
-//удаление задачи => открытие модалки
-const deleteTask = (index) => {
-    deletedIndex = index;
-    showModal.value = !showModal.value;
-}
-//подтверждение удаления задачи
-const deleteTaskConfirm  = () => {
-    tasks.value.splice(deletedIndex, 1);
-    showModal.value = !showModal.value;
-}
+
 //проставление чекбокса
 const checkedInput = (item) => {
     item.checked = !item.checked;
 }
-//функция для
+//изменение кнопки
 const changeTask = (item) => {
     editedTask = item.id;
     nameButton.value = "Редактировать";
@@ -140,10 +136,6 @@ const cancelChanges = () => {
 
 const cancelConfirm = () => {
     nameButton.value = "Создать";
-    showModal.value = false;
-}
-
-const closeModal = () => {
     showModal.value = false;
 }
 

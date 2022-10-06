@@ -5,7 +5,7 @@
         :style="{
             background: props.color,
             border: `1px solid ${props.color}`,
-            width: `${props.width}%`
+            'min-width' : `${props.width}%`
         }"
         :disabled="disabled"
         @click="actionFunc"
@@ -28,7 +28,8 @@
     }
 </script>
 <style lang="scss" scoped>
-    @mixin button {
+    .button {
+        background: #0398dd;
         width: 25%;
         height: 38px;
         color: aliceblue;
@@ -40,20 +41,15 @@
         transition: 0.2s;
         overflow: hidden;
         user-select: none;
-    }
-    .button {
-       @include button;
-       &_cancel:hover {
-            background: #c50b0b !important;
-            border: 1px solid #c50b0b !important;
+        opacity: 0.85;
+        &:hover {
+            opacity: 1;
             cursor: pointer;
-       }
-       &_undoredo {
-            &:hover:not(:disabled) {
-                background: #767776 !important;
-                border: 1px solid #767776 !important;
-                cursor: pointer;
-            }
+        }
+        &:disabled {
+            opacity: 0.4;
+            cursor: auto;
         }
     }
+    
 </style>
