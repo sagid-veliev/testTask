@@ -20,7 +20,6 @@
                     :id="index"
                     :disabled="false"
                     :active="active"
-                    @delete-task="deleteTask(index)"
                     @check="checkedInput(item)"  
                 >
                     <template #delete_btn>
@@ -34,14 +33,26 @@
             <template #button>
                 <div class="block_button">
                     <ToDoButton
-                        class-name="button_cancel"
-                        color="#ff352e"
-                        button-name="Отменить редактирование"
+                        class-name="button_undoredo"
+                        color="#a4a8a4"
+                        button-name="Отменить"
+                        :disabled="oldTasks.length < 2 || !disableUndoRedo"
+                        @click="toBack" 
                     ></ToDoButton>
-                    <!-- <button class="button" @click.stop="toBack" :disabled="oldTasks.length < 2 || !disableUndoRedo">Отменить изменение</button> -->
-                    <button class="button" @click.stop="toNext" :disabled="oldTasks.length < 2 || disableUndoRedo">Вернуть изменение</button>
+                    <ToDoButton
+                        class-name="button_undoredo"
+                        color="#a4a8a4"
+                        button-name="Вернуть"
+                        :disabled="oldTasks.length < 2 || disableUndoRedo"
+                        @click="toNext" 
+                    ></ToDoButton>
                 </div>
-                <button-cancel @click="cancelChanges"></button-cancel>
+                <ToDoButton
+                    class-name="button_cancel"
+                    color="#ff352e"
+                    button-name="Отменить редактирование"
+                    @click="cancelChanges"
+                ></ToDoButton>
             </template>
         </to-do-list>
     </div>
@@ -78,10 +89,10 @@ onMounted(() => {
     tasks.value = JSON.parse(localStorage.getItem("tasks")) || [];
 });
 
-// const toBack = () => {
-//     tasks.value = oldTasks[0];
-//     disableUndoRedo.value = false;
-// }
+const toBack = () => {
+    tasks.value = oldTasks[0];
+    disableUndoRedo.value = false;
+}
 
 const toNext = () => {
     tasks.value = oldTasks[0];

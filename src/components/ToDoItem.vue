@@ -38,7 +38,7 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(["delete-task", "check", "change-task"]);
+const emit = defineEmits(["check"]);
 const toggleInput = () => { emit("check") };
 
 </script>
